@@ -1,0 +1,153 @@
+﻿@page "/"
+
+@layout Layout.MainLayout
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <!-- Hero Section -->
+    <MudGrid Style="background: linear-gradient(to right, #3a7bd5, #3a6073); padding: 40px; border-radius: 12px;">
+        <MudItem xs="12" md="6">
+            <MudText Typo="Typo.h3" Class="mb-3" Style="color: white;">
+                Manage Your Finances Smarter with <strong>Expense Buddy</strong>
+            </MudText>
+            <MudText Typo="Typo.subtitle1" Class="mb-4" Style="color: white;">
+                Your personal assistant to track, save, and plan for a better financial future.
+            </MudText>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@NavigateToLogin">
+                Get Started Now
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" Style="border-color: white; color: white;" Class="ml-2" OnClick="@NavigateToProfile">
+                Learn More
+            </MudButton>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <!-- Empty section for layout balance -->
+        </MudItem>
+    </MudGrid>
+
+    <!-- About Section -->
+    <MudGrid Class="mt-10" Style="background-color: #f8f9fa; border-radius: 12px; padding: 20px;">
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-3" Style="color: #343a40;">
+                Why Choose Expense Buddy?
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudText Typo="Typo.body1" Class="mb-4" Style="color: #6c757d;">
+                Expense Buddy is designed to empower individuals and families to take control of their financial lives. From tracking expenses to setting budgets, we’ve got you covered.
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudText Typo="Typo.body1" Class="mb-4" Style="color: #6c757d;">
+                Join thousands of users who have transformed their spending habits and achieved financial freedom with our easy-to-use platform.
+            </MudText>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Features Section -->
+    <MudGrid Class="mt-10">
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-4" Style="color: #007bff;">
+                Features You'll Love
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" md="4">
+            <MudCard Class="shadow-lg p-4" Style="border: 1px solid #e0e0e0; border-radius: 12px;">
+                <MudIcon Icon="@Icons.Material.Filled.Savings" Size="Size.Large" Color="Color.Tertiary" />
+                <MudText Typo="Typo.h6" Class="mt-2">Savings Goals</MudText>
+                <MudText Typo="Typo.body2" Style="color: #6c757d;">
+                    Set and track your savings goals with ease to achieve financial milestones.
+                </MudText>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="4">
+            <MudCard Class="shadow-lg p-4" Style="border: 1px solid #e0e0e0; border-radius: 12px;">
+                <MudIcon Icon="@Icons.Material.Filled.ReceiptLong" Size="Size.Large" Color="Color.Primary" />
+                <MudText Typo="Typo.h6" Class="mt-2">Detailed Reports</MudText>
+                <MudText Typo="Typo.body2" Style="color: #6c757d;">
+                    Gain insights into your spending patterns with clear and concise reports.
+                </MudText>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="4">
+            <MudCard Class="shadow-lg p-4" Style="border: 1px solid #e0e0e0; border-radius: 12px;">
+                <MudIcon Icon="@Icons.Material.Filled.Security" Size="Size.Large" Color="Color.Secondary" />
+                <MudText Typo="Typo.h6" Class="mt-2">Secure Data</MudText>
+                <MudText Typo="Typo.body2" Style="color: #6c757d;">
+                    Your data is encrypted and secured, ensuring your privacy and safety.
+                </MudText>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Testimonial Section -->
+    <MudGrid Class="mt-10" Style="background: linear-gradient(to right, #fbc2eb, #a18cd1); border-radius: 12px; padding: 20px;">
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4" Align="Align.Center" Style="color: #fff;" Class="mb-3">
+                What Our Users Say
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudCard Class="shadow-lg p-4" Style="background-color: #ffffff; border: 1px solid #ffffff; border-radius: 12px;">
+                <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" Style="color: #a18cd1;" />
+                <MudText Typo="Typo.h6" Class="mt-2" Style="color: #333;">Sarah T.</MudText>
+                <MudText Typo="Typo.body2" Style="color: #333;">
+                    "Expense Buddy has completely changed how I manage my finances. The spending reports and budgeting features are a game-changer!"
+                </MudText>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudCard Class="shadow-lg p-4" Style="background-color: #ffffff; border: 1px solid #ffffff; border-radius: 12px;">
+                <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" Style="color: #a18cd1;" />
+                <MudText Typo="Typo.h6" Class="mt-2" Style="color: #333;">Mike W.</MudText>
+                <MudText Typo="Typo.body2" Style="color: #333;">
+                    "I've been using Expense Buddy for a couple of months, and I love how easy it is to track expenses and set savings goals. Highly recommend it!"
+                </MudText>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudCard Class="shadow-lg p-4" Style="background-color: #ffffff; border: 1px solid #ffffff; border-radius: 12px;">
+                <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" Style="color: #a18cd1;" />
+                <MudText Typo="Typo.h6" Class="mt-2" Style="color: #333;">John D.</MudText>
+                <MudText Typo="Typo.body2" Style="color: #333;">
+                    "Expense Buddy has helped me stick to my budget. The app is user-friendly, and I love the daily tracking feature!"
+                </MudText>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudCard Class="shadow-lg p-4" Style="background-color: #ffffff; border: 1px solid #ffffff; border-radius: 12px;">
+                <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" Style="color: #a18cd1;" />
+                <MudText Typo="Typo.h6" Class="mt-2" Style="color: #333;">Emily R.</MudText>
+                <MudText Typo="Typo.body2" Style="color: #333;">
+                    "I’ve tried many finance apps, but none compare to Expense Buddy. It’s simple, intuitive, and has helped me keep my finances in check."
+                </MudText>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+
+
+    <!-- Footer Section -->
+    <MudGrid Class="mt-10" Style="background-color: #333; padding: 20px; border-radius: 12px;">
+        <MudItem xs="12" Align="Align.Center">
+            <MudText Typo="Typo.body1" Style="color: #fff;">
+                © 2025 Expense Buddy. All rights reserved.
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" Align="Align.Center">
+            <MudLink Href="/privacy" Style="color: #fff; margin-right: 10px;">Privacy Policy</MudLink>
+            <MudLink Href="/terms" Style="color: #fff;">Terms of Service</MudLink>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private void NavigateToProfile()
+    {
+        Console.WriteLine("Navigating to Profile");
+    }
+
+    private void NavigateToLogin()
+    {
+        Console.WriteLine("Navigating to Login");
+    }
+}

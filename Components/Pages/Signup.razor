@@ -1,0 +1,138 @@
+﻿@page "/signup"
+@using ExpenseBuddyJenish.Models
+@inject DatabaseService DatabaseService
+@inject NavigationManager Navigation
+
+<style>
+    /* Signup Page Styling */
+    body {
+        background-color: #f0f0f0; 
+        color: #333; 
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Paper Styling */
+    .signup-paper {
+        max-width: 400px;
+        margin: auto;
+        margin-top: 50px;
+        padding: 40px;
+        background-color: #ffffff; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        text-align: center;
+    }
+
+    .signup-title {
+        margin-bottom: 20px;
+        color: #2575fc; 
+    }
+
+    .signup-input {
+        margin-bottom: 20px;
+    }
+
+    /* Button Styling */
+    .signup-btn {
+        margin-top: 20px;
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+    }
+
+        .signup-btn:hover {
+            background-color: #45a049; 
+        }
+
+   
+    .error-msg {
+        color: #f44336; 
+        margin-top: 10px;
+    }
+
+    /* Footer Styling */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7); 
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .footer-link {
+        color: #2575fc;
+        text-decoration: none;
+    }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+    /* Sign-In Section Styling */
+    .signin-section {
+        margin-top: 20px;
+    }
+
+    .signin-link {
+        color: #2575fc;
+        text-decoration: none;
+    }
+
+        .signin-link:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<MudPaper Class="signup-paper" Elevation="4">
+    <MudText Typo="Typo.h3" Class="signup-title">Signup</MudText>
+
+    <MudTextField @bind-Value="Name" Label="Name" Variant="Variant.Filled" Required="true" Class="signup-input" />
+    <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Filled" Required="true" Class="signup-input" />
+    <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Filled" InputType="InputType.Password" Required="true" Class="signup-input" />
+
+    <MudButton OnClick="RegisterUser" Variant="Variant.Filled" Class="signup-btn">
+        Signup
+    </MudButton>
+
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <MudText Typo="Typo.body1" Class="error-msg">@ErrorMessage</MudText>
+    }
+
+    <div class="signin-section">
+        <MudText Typo="Typo.body2">
+            Already have an account? <a href="/login" class="signin-link">Login</a>
+        </MudText>
+    </div>
+</MudPaper>
+
+@* Footer Section *@
+<div class="footer">
+    <MudText Typo="Typo.body2">
+        &copy; 2025 Expense Buddy. All rights reserved. <a href="/privacy-policy" class="footer-link">Privacy Policy</a> | <a href="/terms-of-service" class="footer-link">Terms of Service</a>
+    </MudText>
+</div>
+
+@code {
+    private string Name;
+    private string Email;
+    private string Password;
+    private string ErrorMessage;
+
+    private async Task RegisterUser()
+    {
+        var existingUser = await DatabaseService.GetUserByEmailAsync(Email);
+        if (existingUser != null)
+        {
+            ErrorMessage = "Email already in use.";
+            return;
+        }
+
+        var newUser = new User { Name = Name, Email = Email, Password = Password }; // Hash the password in production
+        await DatabaseService.CreateUserAsync(newUser);
+        Navigation.NavigateTo("/login"); 
+    }
+}

@@ -1,0 +1,136 @@
+﻿@page "/login"
+@using ExpenseBuddyJenish.Models
+@inject DatabaseService DatabaseService
+@inject NavigationManager Navigation
+
+<style>
+    /* Login Page Styling */
+    body {
+        background-color: #f0f0f0; 
+        color: #333; 
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    
+    .login-paper {
+        max-width: 400px;
+        margin: auto;
+        margin-top: 50px;
+        padding: 40px;
+        background-color: #ffffff; /* White background for the form */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+        text-align: center;
+    }
+
+    .login-title {
+        margin-bottom: 20px;
+        color: #2575fc; 
+    }
+
+    .login-input {
+        margin-bottom: 20px;
+    }
+
+    /* Button Styling */
+    .login-btn {
+        margin-top: 20px;
+        width: 100%;
+        background-color: #4CAF50; 
+        color: white;
+    }
+
+        .login-btn:hover {
+            background-color: #45a049; 
+        }
+
+    /* Error Message Styling */
+    .error-msg {
+        color: #f44336; 
+        margin-top: 10px;
+    }
+
+   
+    .signup-section {
+        margin-top: 20px;
+    }
+
+    .signup-link {
+        color: #2575fc;
+        text-decoration: none;
+    }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+
+    /* Footer Styling */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7); 
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .footer-link {
+        color: #2575fc;
+        text-decoration: none;
+    }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<MudPaper Class="login-paper" Elevation="4">
+    <MudText Typo="Typo.h3" Class="login-title">Login</MudText>
+
+    <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Filled" Required="true" Class="login-input" />
+    <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Filled" InputType="InputType.Password" Required="true" Class="login-input" />
+
+    <MudButton OnClick="LoginUser" Variant="Variant.Filled" Class="login-btn">
+        Login
+    </MudButton>
+
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <MudText Typo="Typo.body1" Class="error-msg">@ErrorMessage</MudText>
+    }
+
+    <div class="signup-section">
+        <MudText Typo="Typo.body2">
+            Don't have an account? <a href="/signup" class="signup-link">Sign Up</a>
+        </MudText>
+    </div>
+</MudPaper>
+
+@* Footer Section *@
+<div class="footer">
+    <MudText Typo="Typo.body2">
+        &copy; 2025 Expense Buddy. All rights reserved. <a href="/privacy-policy" class="footer-link">Privacy Policy</a> | <a href="/terms-of-service" class="footer-link">Terms of Service</a>
+    </MudText>
+</div>
+
+@code {
+    private string Email;
+    private string Password;
+    private string ErrorMessage;
+
+    private async Task LoginUser()
+    {
+        var user = await DatabaseService.GetUserAsync(Email, Password);
+        if (user != null)
+        {
+            Navigation.NavigateTo("/"); // Redirect to home page after successful login
+        }
+        else
+        {
+            ErrorMessage = "Invalid email or password.";
+        }
+    }
+}

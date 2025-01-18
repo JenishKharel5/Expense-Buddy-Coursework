@@ -1,0 +1,83 @@
+﻿/* Global Styles for the Navigation */
+.navbar {
+    background-color: #00796b; /* Dark teal background for navbar */
+    padding: 10px 20px; /* Padding for spacing */
+}
+
+/* Navbar Links Styling */
+.nav-link {
+    font-size: 1.2rem; /* Slightly bigger links */
+    font-weight: 600; /* Semi-bold for prominence */
+    padding: 12px 20px;
+    margin-left: 20px;
+    text-transform: uppercase; /* Capitalize the text */
+    color: #ffffff; /* White text color */
+    border-radius: 5px; /* Rounded corners */
+    transition: all 0.3s ease; /* Smooth transitions for hover effects */
+    text-decoration: none; /* Remove underline */
+}
+
+    /* Hover effect for the nav links */
+    .nav-link:hover {
+        background-color: #26a69a; /* Light Green/Teal for hover */
+        color: #ffffff; /* Keep the text white on hover */
+        transform: scale(1.05); /* Slight scale effect on hover for interactivity */
+    }
+
+    /* Active link styling (when it's the current page) */
+    .nav-link.active {
+        background-color: #004d40; /* Darker teal */
+        color: #ffffff;
+        font-weight: 700; /* Bold active link */
+    }
+
+/* Navbar Branding/Logo Styling */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff; /* White color for the brand name */
+    text-decoration: none; /* Remove underline */
+}
+
+/* Navbar Container for spacing */
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    margin-left: auto;
+}
+
+/* Styling for each navbar item */
+.nav-item {
+    margin-left: 20px;
+}
+
+    /* Optional: Add a separator between items */
+    .nav-item:not(:last-child) {
+        margin-right: 20px;
+    }
+
+/* Add a container style for the navbar to ensure it is aligned properly */
+.navbar-collapse {
+    display: flex;
+    justify-content: flex-end; /* Align nav items to the right */
+}
+
+/* On mobile, make the navbar links stack vertically */
+@media (max-width: 768px) {
+    .navbar-nav {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-item {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+}
+
+/* Optional: Styling for the active page's navbar link */
+.navbar .nav-link.active {
+    background-color: #004d40; /* Darker teal */
+    color: white; /* Keep text white for active link */
+}

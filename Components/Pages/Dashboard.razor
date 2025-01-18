@@ -1,0 +1,662 @@
+﻿@page "/dashboard"
+@using ExpenseBuddyJenish.Models
+@inject TransactionService TransactionService
+@inject NavigationManager NavigationManager
+
+<style>
+    /* Body Styling */
+    body {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: #fff;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sort-by-container {
+        margin-bottom: 10px;
+    }
+
+    .sort-by-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .mud-select {
+        background-color: #f9fafb;
+        border-radius: 12px;
+    }
+
+    /* Section for Total Stats */
+    .total-stats-section {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        align-items: flex-start;
+    }
+
+    /* Styling for individual stats cards */
+    .total-stats-card {
+        background-color: #3498db;
+        padding: 20px;
+        border-radius: 10px;
+        width: 30%;
+        text-align: center;
+        color: #fff;
+        font-size: 18px;
+        box-sizing: border-box;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .total-inflow {
+        background-color: #2ecc71;
+    }
+
+    .total-outflow {
+        background-color: #e74c3c;
+    }
+
+    .pending-debt {
+        background-color: #f39c12;
+    }
+
+    /* New Total Transactions Section */
+    .total-transactions-section {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        align-items: flex-start;
+    }
+
+    /* Styling for total transactions cards */
+    .total-transactions-card {
+        background-color: #9b59b6;
+        padding: 20px;
+        border-radius: 10px;
+        width: 48%;
+        text-align: center;
+        color: #fff;
+        font-size: 18px;
+        box-sizing: border-box;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+        .total-transactions-card.net-total {
+            background-color: #27ae60;
+        }
+
+    /* Transaction and Top Five Section Styling */
+    .transactions-container,
+    .top-five-container {
+        margin-top: 20px;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+
+    /* Search and Filter Container */
+    .search-filter-container {
+        margin: 20px auto;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        width: 95%;
+        max-width: 700px;
+    }
+
+        .search-filter-container .mud-container {
+            background-color: #e0f7fa; /* Light background */
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #81d4fa; /* Light blue border */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-sizing: border-box;
+        }
+
+        .search-filter-container .mud-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-filter-container .mud-item {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-filter-container .mud-text-field {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 10px 12px;
+            border: 1px solid #95a5a6;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 0.95em;
+            color: #2c3e50;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-filter-container .mud-select,
+        .search-filter-container .mud-date-picker {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 10px 12px;
+            border: 1px solid #95a5a6;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 0.95em;
+            color: #2c3e50;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-filter-container .search-button {
+            background-color: #27ae60;
+            color: #fff;
+            border-radius: 5px;
+            border: none;
+            font-size: 0.95em;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            align-self: flex-end;
+            box-sizing: border-box;
+        }
+
+            .search-filter-container .search-button:hover {
+                background-color: #2ecc71;
+            }
+
+    /* Sort By Styling */
+    .sort-by-container {
+        margin: 10px 0 0px 0;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #e0c0a1;
+        border-radius: 8px;
+        position: relative; /* Needed for absolute positioning */
+        cursor: pointer; /* Add pointer cursor to show it is clickable*/
+        box-sizing: border-box;
+    }
+
+    /* Sort By Styling */
+    .sort-by-container {
+        margin: 20px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 95%;
+        max-width: 300px;
+        border: 1px solid #e0c0a1;
+        border-radius: 10px;
+        padding: 8px;
+        position: relative;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+        .sort-by-container .mud-select {
+            background-color: #f8f0e3;
+            border-radius: 8px;
+            padding: 8px 10px;
+            border: 1px solid #e0c0a1;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 0.95em;
+            color: #333;
+            max-width: 200px;
+            width: 100%;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            display: none;
+            box-sizing: border-box;
+        }
+
+        .sort-by-container:hover .mud-select,
+        .sort-by-container:focus-within .mud-select {
+            display: block;
+        }
+        /* Sort Icon Styling */
+        .sort-by-container .sort-icon {
+            color: #2c3e50;
+            padding: 8px;
+        }
+
+        .sort-by-container:hover .sort-icon,
+        .sort-by-container:focus-within .sort-icon {
+            color: #0056b3;
+        }
+    /* Sort Icon Styling */
+    .sort-by-container .sort-icon {
+        color: #2c3e50;
+        padding: 8px;
+    }
+
+    .sort-by-container:hover .sort-icon,
+    .sort-by-container:focus .sort-icon {
+        color: #0056b3;
+    }
+
+
+
+    /* Table Header Styling */
+    .table-header {
+        font-size: 24px;
+        color: #fff;
+    }
+
+    /* Add Transaction Link Styling */
+    .add-transaction-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .add-link {
+        font-size: 18px;
+        color: #fff;
+        text-decoration: none;
+        background-color: #2575fc;
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+
+        .add-link:hover {
+            background-color: #6a11cb;
+        }
+
+    /* Footer Styling */
+    .footer {
+        position: relative;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: auto;
+        /* Space to avoid overlap */
+    }
+
+    .footer-link {
+        color: #2575fc;
+        text-decoration: none;
+    }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+</style>
+<div class="total-stats-section">
+    <div class="total-stats-card total-inflow">
+        <MudText Typo="Typo.h6">Total Inflow: @totalInflow.ToString()</MudText>
+    </div>
+    <div class="total-stats-card total-outflow">
+        <MudText Typo="Typo.h6">Total Outflow: @totalOutflow.ToString()</MudText>
+    </div>
+    <div class="total-stats-card pending-debt">
+        <MudText Typo="Typo.h6">Pending Debt: @pendingDebt.ToString()</MudText>
+    </div>
+</div>
+@* New Total Transactions Section  *@
+<div class="total-transactions-section">
+    <div class="total-transactions-card">
+        <MudText Typo="Typo.h6">Total Transactions: @totalTransactions</MudText>
+    </div>
+    <div class="total-transactions-card net-total">
+        <MudText Typo="Typo.h6">Net Total: @netTotal.ToString()</MudText>
+    </div>
+</div>
+<div class="search-filter-container">
+    <MudContainer Style="margin-top: 30px;">
+        <MudContainer>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="searchQuery"
+                                  Label="Search Your Tag/Description"
+                                  Placeholder="Eg: Business/Insurance"
+                                  Adornment="Adornment.Start"
+                                  AdornmentIcon="Icons.Material.Filled.Search"
+                                  FullWidth="true"
+                                  Variant="Variant.Outlined"
+                                  Class="mud-text-field"
+                                  Immediate="true" />
+                </MudItem>
+            </MudGrid>
+
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect T="TransactionType"
+                               Label="Transaction Type"
+                               @bind-Value="@selectedType"
+                               Class="mud-select">
+                        <MudSelectItem Value="@TransactionType.All">All</MudSelectItem>
+                        <MudSelectItem Value="@TransactionType.Credit">Credit</MudSelectItem>
+                        <MudSelectItem Value="@TransactionType.Debit">Debit</MudSelectItem>
+                        <MudSelectItem Value="@TransactionType.Debt">Debt</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudDatePicker Label="Start Date"
+                                   @bind-Value="@startDate"
+                                   PickerVariant="PickerVariant.Dialog"
+                                   Class="mud-date-picker" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudDatePicker Label="End Date"
+                                   @bind-Value="@endDate"
+                                   PickerVariant="PickerVariant.Dialog"
+                                   Class="mud-date-picker" />
+                </MudItem>
+            </MudGrid>
+        </MudContainer>
+    </MudContainer>
+    <div class="sort-by-container">
+        <span class="sort-icon"> <MudIcon Icon="@Icons.Material.Filled.Sort" /></span>
+        <MudSelect T="SortOrder"
+                   Label="Sort By"
+                   @bind-Value="@selectedSort"
+                   Class="mud-select">
+            <MudSelectItem Value="@SortOrder.Ascending">Ascending</MudSelectItem>
+            <MudSelectItem Value="@SortOrder.Descending">Descending</MudSelectItem>
+        </MudSelect>
+    </div>
+</div>
+
+
+<MudContainer Class="transactions-container">
+    <MudText Typo="Typo.h5" Class="table-header">Transactions Made</MudText>
+    <MudTable Items="FilteredTransactionsList" RowClick="OnRowClick">
+        <HeaderContent>
+            <MudTh>Transaction ID</MudTh>
+            <MudTh>Amount</MudTh>
+            <MudTh>Date</MudTh>
+            <MudTh>Description</MudTh>
+            <MudTh>Type</MudTh>
+            <MudTh>Tags</MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="TransactionId">@context.Id</MudTd>
+            <MudTd DataLabel="Amount">@context.Amount</MudTd>
+            <MudTd DataLabel="Date">@context.Date.ToString("MM/dd/yyyy")</MudTd>
+            <MudTd DataLabel="Description">@context.Remarks</MudTd>
+            <MudTd DataLabel="Type">@context.Type</MudTd>
+            <MudTd DataLabel="Tags">@context.Tags</MudTd>
+            <MudTd DataLabel="Actions">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => EditTransaction(context.Id))">Edit</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@(() => DeleteTransaction(context.Id))">Delete</MudButton>
+            </MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText Typo="Typo.subtitle1">No transactions found.</MudText>
+        </NoRecordsContent>
+    </MudTable>
+</MudContainer>
+
+<MudContainer Class="top-five-container">
+    <MudText Typo="Typo.h5" Class="table-header">Top 5 Big Transactions</MudText>
+    <MudTable Items="TopFive" RowClick="OnRowClick">
+        <HeaderContent>
+            <MudTh>Transaction ID</MudTh>
+            <MudTh>Amount</MudTh>
+            <MudTh>Date</MudTh>
+            <MudTh>Description</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="TransactionId">@context.Id</MudTd>
+            <MudTd DataLabel="Amount">@context.Amount</MudTd>
+            <MudTd DataLabel="Date">@context.Date.ToString("MM/dd/yyyy")</MudTd>
+            <MudTd DataLabel="Description">@context.Remarks</MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText Typo="Typo.subtitle1">No transactions found.</MudText>
+        </NoRecordsContent>
+    </MudTable>
+</MudContainer>
+
+
+<MudContainer Class="top-five-container">
+    <MudText Typo="Typo.h5" Class="table-header">Top 5 Small Transactions</MudText>
+    <MudTable Items="SmallTransactions" RowClick="OnRowClick">
+        <HeaderContent>
+            <MudTh>Transaction ID</MudTh>
+            <MudTh>Amount</MudTh>
+            <MudTh>Date</MudTh>
+            <MudTh>Description</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="TransactionId">@context.Id</MudTd>
+            <MudTd DataLabel="Amount">@context.Amount</MudTd>
+            <MudTd DataLabel="Date">@context.Date.ToString("MM/dd/yyyy")</MudTd>
+            <MudTd DataLabel="Description">@context.Remarks</MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText Typo="Typo.subtitle1">No transactions found.</MudText>
+        </NoRecordsContent>
+    </MudTable>
+</MudContainer>
+
+<div class="add-transaction-link">
+    <a href="/add-transaction" class="add-link">Add a new Transaction</a>
+</div>
+
+<div class="footer">
+    <MudText Typo="Typo.body2">
+        © 2025 Expense Buddy. All rights reserved. <a href="/privacy-policy" class="footer-link">Privacy Policy</a> | <a href="/terms-of-service" class="footer-link">Terms of Service</a>
+    </MudText>
+</div>
+
+@code {
+    private List<Transaction> TransactionsList = new();
+    private List<Transaction> TopFive = new();
+    private List<Transaction> SmallTransactions = new();
+    private List<Transaction> _filteredTransactionsList;
+    private List<Transaction> FilteredTransactionsList
+    {
+        get
+        {
+            return _filteredTransactionsList ?? TransactionsList;
+        }
+        set
+        {
+            _filteredTransactionsList = value;
+        }
+    }
+    private enum TransactionType
+    {
+        All,
+        Credit,
+        Debit,
+        Debt,
+    }
+    private enum SortOrder
+    {
+        Ascending,
+        Descending
+    }
+    private string _searchQuery = string.Empty;
+    private string searchQuery
+    {
+        get => _searchQuery;
+        set
+        {
+            _searchQuery = value;
+            FilterAndSortTransactions();
+        }
+    }
+    private decimal totalInflow = 0;
+    private decimal totalOutflow = 0;
+    private decimal totalDebt = 0;
+    private decimal totalDebtSetteled = 0;
+    private decimal pendingDebt = 0;
+    private TransactionType _selectedType = TransactionType.All;
+    private TransactionType selectedType
+    {
+        get => _selectedType;
+        set
+        {
+            _selectedType = value;
+            FilterAndSortTransactions();
+        }
+    }
+    private DateTime? _startDate;
+    private DateTime? startDate
+    {
+        get => _startDate;
+        set
+        {
+            _startDate = value;
+            FilterAndSortTransactions();
+        }
+    }
+    private DateTime? _endDate;
+    private DateTime? endDate
+    {
+        get => _endDate;
+        set
+        {
+            _endDate = value;
+            FilterAndSortTransactions();
+        }
+    }
+    private SortOrder _selectedSort = SortOrder.Ascending;
+    private SortOrder selectedSort
+    {
+        get => _selectedSort;
+        set
+        {
+            _selectedSort = value;
+            FilterAndSortTransactions();
+        }
+    }
+    private int totalTransactions = 0;
+    private decimal netTotal = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            TransactionsList = await TransactionService.GetTransactionsAsync();
+            UpdateSummary();
+            FilterAndSortTransactions();
+
+        }
+        catch (Exception ex)
+        {
+            //Log Exception Here
+        }
+    }
+
+    private void UpdateSummary()
+    {
+        TopFive = TransactionsList
+           .Where(t => t.Amount.HasValue)
+           .OrderByDescending(t => t.Amount.Value)
+           .Take(5)
+           .ToList();
+
+        SmallTransactions = TransactionsList
+            .Where(t => t.Amount.HasValue)
+            .OrderBy(t => t.Amount.Value)
+            .Take(5)
+            .ToList();
+
+        totalInflow = TransactionsList
+            .Where(t => t.Type == "credit" && t.Amount.HasValue)
+            .Sum(t => t.Amount ?? 0);
+
+        totalOutflow = TransactionsList
+            .Where(t => t.Type == "debit" && t.Amount.HasValue)
+            .Sum(t => t.Amount ?? 0);
+
+        totalDebt = TransactionsList
+             .Where(t => t.Type == "debt" && t.Amount.HasValue)
+            .Sum(t => t.Amount ?? 0);
+
+        pendingDebt = totalDebt - totalDebtSetteled;
+        totalTransactions = TransactionsList.Count;
+        netTotal = totalInflow + totalDebt - totalOutflow;
+    }
+
+
+    private void FilterAndSortTransactions()
+    {
+
+        FilteredTransactionsList = TransactionsList
+            .Where(t =>
+                (selectedType == TransactionType.All || t.Type == selectedType.ToString().ToLower()) &&
+                (startDate == null || t.Date.Date >= startDate.Value.Date) &&
+                (endDate == null || t.Date.Date <= endDate.Value.Date) &&
+                  (string.IsNullOrEmpty(searchQuery) ||
+                        t.Remarks.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                         (!string.IsNullOrEmpty(t.Tags) && t.Tags.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)) ||
+                        t.Date.ToString("MM/dd/yyyy").Contains(searchQuery))
+               )
+            .ToList();
+
+
+        
+        switch (_selectedSort)
+        {
+            case SortOrder.Ascending:
+                FilteredTransactionsList = FilteredTransactionsList.OrderBy(t => t.Date).ToList();
+                break;
+            case SortOrder.Descending:
+                FilteredTransactionsList = FilteredTransactionsList.OrderByDescending(t => t.Date).ToList();
+                break;
+            default:
+                break;
+        }
+        StateHasChanged();
+    }
+    private async Task HandleSortOrderChanged(SortOrder value)
+    {
+        selectedSort = value;
+        FilterAndSortTransactions();
+    }
+
+    private void PerformSearch()
+    {
+        FilterAndSortTransactions();
+    }
+
+
+    private void EditTransaction(int transactionId)
+    {
+        NavigationManager.NavigateTo($"/edit-transaction/{transactionId}");
+    }
+
+    private async Task DeleteTransaction(int transactionId)
+    {
+        try
+        {
+            await TransactionService.DeleteTransactionAsync(transactionId);
+            TransactionsList = await TransactionService.GetTransactionsAsync();
+            UpdateSummary();
+            FilterAndSortTransactions();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            // Log Exception Here
+        }
+    }
+}

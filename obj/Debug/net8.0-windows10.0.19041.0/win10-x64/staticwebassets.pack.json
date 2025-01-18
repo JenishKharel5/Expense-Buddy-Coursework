@@ -1,0 +1,49 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\jenis\\OneDrive\\Desktop\\cw\\cw\\obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\scopedcss\\bundle\\ExpenseBuddyJenish.styles.css",
+      "PackagePath": "staticwebassets\\ExpenseBuddyJenish.styles.css"
+    },
+    {
+      "Id": "C:\\Users\\jenis\\OneDrive\\Desktop\\cw\\cw\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\jenis\\OneDrive\\Desktop\\cw\\cw\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\jenis\\OneDrive\\Desktop\\cw\\cw\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\jenis\\OneDrive\\Desktop\\cw\\cw\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\jenis\\OneDrive\\Desktop\\cw\\cw\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.ExpenseBuddyJenish.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.ExpenseBuddyJenish.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.build.ExpenseBuddyJenish.props",
+      "PackagePath": "build\\ExpenseBuddyJenish.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.buildMultiTargeting.ExpenseBuddyJenish.props",
+      "PackagePath": "buildMultiTargeting\\ExpenseBuddyJenish.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.buildTransitive.ExpenseBuddyJenish.props",
+      "PackagePath": "buildTransitive\\ExpenseBuddyJenish.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

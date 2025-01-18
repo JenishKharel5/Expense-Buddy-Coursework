@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Color="Color.Primary" Elevation="4" Fixed="true" Class="custom-appbar">
+        <!-- Title of the application -->
+        <MudText Typo="Typo.h5" Class="custom-title" Color="Color.Inherit">Expense Buddy</MudText>
+        <MudSpacer />
+
+        <!-- Navigation Links -->
+        <MudLink Href="/" Color="Color.Inherit" Class="nav-link">Home</MudLink>
+        <MudLink Href="/dashboard" Color="Color.Inherit" Class="nav-link">Dashboard</MudLink>
+        <MudLink Href="/login" Color="Color.Inherit" Class="nav-link">Login</MudLink>
+        <MudLink Href="/signup" Color="Color.Inherit" Class="nav-link">Signup</MudLink>
+    </MudAppBar>
+
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _drawerOpen = false;
+
+    private void ToggleDrawer()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
